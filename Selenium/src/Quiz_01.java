@@ -2,16 +2,21 @@ import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Quiz_01 {
 
 	public static void main(String[] args) throws Exception{
-		WebDriver driver = new ChromeDriver(); 
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("headless");
+		
+		WebDriver driver = new ChromeDriver(options); 
 		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
 		//셀레니움 인스턴스
 		
@@ -53,14 +58,22 @@ public class Quiz_01 {
 		WebElement writeToMe5 = driver.findElement(By.linkText("내게쓰기"));
 		writeToMe5.click();
 		
-		//Thread.sleep(500);
+		
+		
+		
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("subject")));
 		WebElement write = driver.findElement(By.id("subject"));
-		write.sendKeys("웹 자동화 연습중입니다.");
+		write.sendKeys("웹 자동화 연습중");
 		
-		driver.switchTo().frame("se2_iframe");
-		WebElement writemsg = driver.findElement(By.className("se2_inputarea"));
-		writemsg.sendKeys("웹 자동화 연습중입니다.");
+		driver.findElement(By.name("subject")).sendKeys(Keys.TAB+"내용");
+		
+//		driver.switchTo().frame("	");
+//		WebElement writemsg = driver.findElement(By.className("se2_inputarea"));
+//		writemsg.sendKeys("웹 자동화 연습중입니다.");
+		
+		driver.switchTo().parentFrame();
+		WebElement sendBtn = driver.findElement(By.id("sendBtn"));
+		sendBtn.click();
 		
 		Thread.sleep(5000);
 		driver.close();
